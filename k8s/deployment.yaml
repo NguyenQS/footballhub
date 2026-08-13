@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: footballhub-backend
+
+spec:
+  replicas: 3
+
+  selector:
+    matchLabels:
+      app: footballhub-backend
+
+  template:
+    metadata:
+      labels:
+        app: footballhub-backend
+
+    spec:
+      containers:
+        - name: footballhub-backend
+          image: footballhub-backend:v2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
