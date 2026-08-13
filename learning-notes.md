@@ -169,3 +169,17 @@ Mit einem anderen lokalen Port konnte ich den Service trotzdem erreichbar machen
 `kubectl port-forward service/footballhub-backend 8081:8000`
 
 Dabei ist `8081` der Port auf meinem Rechner und `8000` der Port des Kubernetes-Service.
+
+### Fehlgeschlagenes Deployment und Rollback
+
+Ich habe absichtlich ein nicht vorhandenes Image `footballhub-backend:v999` deployt.
+
+Mit `kubectl get pods` erkannte ich zunächst `ErrImagePull` und später `ImagePullBackOff`.
+
+Mit `kubectl describe pod` konnte ich in den Events sehen, dass Kubernetes das Image nicht herunterladen konnte.
+
+Während des fehlgeschlagenen Rolling Updates liefen die bisherigen funktionierenden Pods weiter.
+
+Mit `kubectl rollout undo deployment/footballhub-backend` konnte ich zur vorherigen funktionierenden Version zurückkehren.
+
+Wichtig ist, anschließend auch die lokale Deployment-YAML wieder auf die funktionierende Version zu setzen, da ein Rollback im Cluster die lokale Konfigurationsdatei nicht automatisch verändert.

@@ -3,7 +3,7 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-APP_VERSION = "v2"
+APP_VERSION = "v3"
 
 class TeamCreate(BaseModel):
     name: str
