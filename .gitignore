@@ -1,0 +1,8 @@
+k8s/secret.yaml
+
+# Python cache
+__pycache__/
+*.pyc
+
+# Local Kubernetes secrets
+k8s/secret.yaml

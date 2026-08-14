@@ -19,7 +19,14 @@ spec:
     spec:
       containers:
         - name: footballhub-backend
-          image: footballhub-backend:v3.1
+          image: footballhub-backend:v4
           imagePullPolicy: IfNotPresent
+          
+          envFrom:
+            - configMapRef:
+                name: footballhub-config
+            - secretRef:
+                name: footballhub-secret
+                
           ports:
             - containerPort: 8000

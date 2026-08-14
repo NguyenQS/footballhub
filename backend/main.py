@@ -1,9 +1,12 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+import os
 
 app = FastAPI()
 
 APP_VERSION = "v3"
+
+APP_ENV = os.getenv("APP_ENV", "local")
 
 class TeamCreate(BaseModel):
     name: str
@@ -37,6 +40,10 @@ teams = [
 @app.get("/teams")
 def get_teams():
     return teams
+
+@app.get("/environment")
+def get_environment():
+    return {"environment": APP_ENV}
 
 @app.get("/teams/{team_id}")
 def get_team(team_id: int):
