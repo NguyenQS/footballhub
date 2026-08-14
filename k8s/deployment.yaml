@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: footballhub-backend
-          image: footballhub-backend:v4
+          image: footballhub-backend:v5
           imagePullPolicy: IfNotPresent
           
           envFrom:
@@ -27,6 +27,20 @@ spec:
                 name: footballhub-config
             - secretRef:
                 name: footballhub-secret
-                
+
           ports:
             - containerPort: 8000
+
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 2
+            periodSeconds: 5
+
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10

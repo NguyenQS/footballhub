@@ -197,3 +197,15 @@ Mit `kubectl logs <pod-name>` konnte ich die eigentliche Python-Fehlermeldung se
 `kubectl describe pod <pod-name>` zeigte dagegen den Kubernetes-Zustand, unter anderem Restart Count, Exit Code und BackOff-Events.
 
 Self-Healing kann einen reproduzierbaren Fehler im Anwendungscode nicht reparieren. Kubernetes kann den Container nur erneut starten oder eine funktionierende Version deployen.
+
+### Readiness und Liveness
+
+Ein laufender Container ist nicht automatisch bereit, Traffic zu bearbeiten.
+
+Die Readiness Probe prüft, ob ein Pod aktuell Anfragen über den Service bekommen soll. Wenn die Readiness Probe fehlschlägt, kann der Container weiterlaufen, wird aber nicht als Ready betrachtet.
+
+Die Liveness Probe prüft, ob die Anwendung noch gesund genug ist, um weiterzulaufen. Wenn sie wiederholt fehlschlägt, kann Kubernetes den Container neu starten.
+
+Ich habe die Readiness Probe absichtlich auf einen nicht vorhandenen Endpoint gesetzt. Der Pod war weiterhin `Running`, aber nur `0/1 Ready`. Das Rolling Update konnte dadurch nicht abgeschlossen werden.
+
+Nach dem Zurücksetzen des Pfads auf `/health` wurden wieder alle drei Pods `1/1 Ready`.

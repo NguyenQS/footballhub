@@ -58,6 +58,10 @@ def get_team(team_id: int):
 def get_version():
     return {"version": APP_VERSION}
 
+@app.get("/health")
+def health():
+    return {"status": "ok"}
+
 @app.post("/teams")
 def create_team(team: TeamCreate):
     new_team = {
