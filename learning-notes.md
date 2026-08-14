@@ -183,3 +183,17 @@ Während des fehlgeschlagenen Rolling Updates liefen die bisherigen funktioniere
 Mit `kubectl rollout undo deployment/footballhub-backend` konnte ich zur vorherigen funktionierenden Version zurückkehren.
 
 Wichtig ist, anschließend auch die lokale Deployment-YAML wieder auf die funktionierende Version zu setzen, da ein Rollback im Cluster die lokale Konfigurationsdatei nicht automatisch verändert.
+
+### CrashLoopBackOff
+
+Ich habe absichtlich einen Fehler eingebaut, durch den die FastAPI-Anwendung beim Start abgestürzt ist.
+
+Das Image konnte erfolgreich geladen werden und der Container wurde gestartet. Die Anwendung ist jedoch sofort mit Exit Code 1 beendet worden.
+
+Kubernetes hat den Container mehrfach neu gestartet. Da bei jedem Start derselbe Anwendungsfehler auftrat, entstand ein CrashLoopBackOff.
+
+Mit `kubectl logs <pod-name>` konnte ich die eigentliche Python-Fehlermeldung sehen.
+
+`kubectl describe pod <pod-name>` zeigte dagegen den Kubernetes-Zustand, unter anderem Restart Count, Exit Code und BackOff-Events.
+
+Self-Healing kann einen reproduzierbaren Fehler im Anwendungscode nicht reparieren. Kubernetes kann den Container nur erneut starten oder eine funktionierende Version deployen.

@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
         - name: footballhub-backend
-          image: footballhub-backend:v2
+          image: footballhub-backend:v3.1
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
