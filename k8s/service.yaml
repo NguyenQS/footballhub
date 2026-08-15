@@ -3,6 +3,7 @@ kind: Service
 
 metadata:
   name: footballhub-backend
+  namespace: footballhub-dev
 
 spec:
   selector:

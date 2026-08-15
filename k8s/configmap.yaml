@@ -2,7 +2,8 @@ apiVersion: v1
 kind: ConfigMap
 
 metadata:
-  name: footballhub-config
+  name: footballhub-config 
+  namespace: footballhub-dev
 
 data:
   APP_ENV: "production"

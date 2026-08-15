@@ -209,3 +209,25 @@ Die Liveness Probe prüft, ob die Anwendung noch gesund genug ist, um weiterzula
 Ich habe die Readiness Probe absichtlich auf einen nicht vorhandenen Endpoint gesetzt. Der Pod war weiterhin `Running`, aber nur `0/1 Ready`. Das Rolling Update konnte dadurch nicht abgeschlossen werden.
 
 Nach dem Zurücksetzen des Pfads auf `/health` wurden wieder alle drei Pods `1/1 Ready`.
+
+### Ressourcen und Namespaces
+
+Requests geben an, mit welchem Ressourcenbedarf Kubernetes beim Scheduling eines Containers rechnen soll. Limits begrenzen, wie viele Ressourcen ein Container maximal verwenden darf.
+
+Für FootballHub habe ich Requests und Limits für CPU und Arbeitsspeicher definiert.
+
+Namespaces ermöglichen eine logische Trennung von Kubernetes-Ressourcen innerhalb eines Clusters. Ich habe FootballHub aus dem `default`-Namespace in einen eigenen Namespace `footballhub-dev` überführt.
+
+Dabei habe ich gesehen, dass Ressourcen nicht einfach zwischen Namespaces verschoben werden. Stattdessen wurden zunächst neue Ressourcen im neuen Namespace erstellt. Die alten Ressourcen im `default`-Namespace musste ich anschließend gezielt entfernen.
+
+Ohne Angabe von `-n` verwendet `kubectl` standardmäßig den `default`-Namespace. Mit `-A` können Ressourcen über alle Namespaces hinweg angezeigt werden.
+
+### Ingress
+
+Ein Service stellt einen stabilen Zugriffspunkt für die Pods einer Anwendung bereit.
+
+Ein Ingress kann HTTP-/HTTPS-Anfragen anhand von Hosts oder Pfaden an unterschiedliche Services weiterleiten. Dadurch können mehrere Anwendungen über einen gemeinsamen externen Einstiegspunkt erreichbar gemacht werden.
+
+In meiner lokalen Kubernetes-Umgebung ist aktuell kein Ingress Controller installiert. Daher habe ich die Ingress-Ressource für FootballHub konfiguriert, aber nicht praktisch über einen Ingress Controller betrieben.
+
+Für lokales Testen und Debugging habe ich bisher `kubectl port-forward` verwendet.
