@@ -23,5 +23,8 @@ jobs:
       - name: Dependencies installieren
         run: uv sync --frozen
 
-      - name: Anwendung importieren
-        run: uv run python -c "from backend.main import app; print('FootballHub import successful')"
+      - name: Tests ausführen
+        run: uv run pytest
+
+      - name: Docker Image bauen
+        run: docker build -t footballhub-backend:ci .
