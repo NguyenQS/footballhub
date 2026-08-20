@@ -45,4 +45,6 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/nguyenqs/footballhub:latest
+          tags: |
+            ghcr.io/nguyenqs/footballhub:latest
+            ghcr.io/nguyenqs/footballhub:${{ github.sha }}
