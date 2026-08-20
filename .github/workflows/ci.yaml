@@ -10,6 +10,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
 
+    permissions:
+      contents: read
+      packages: write
+
     steps:
       - name: Repository auschecken
         uses: actions/checkout@v4
@@ -28,3 +32,17 @@ jobs:
 
       - name: Docker Image bauen
         run: docker build -t footballhub-backend:ci .
+
+      - name: Bei GitHub Container Registry anmelden
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Docker Image für Registry bauen und hochladen
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          tags: ghcr.io/nguyenqs/footballhub:latest
