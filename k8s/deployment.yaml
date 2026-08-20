@@ -20,7 +20,7 @@ spec:
     spec:
       containers:
         - name: footballhub-backend
-          image: footballhub-backend:v5
+          image: ghcr.io/nguyenqs/footballhub:latest
           imagePullPolicy: IfNotPresent
           
           envFrom:
