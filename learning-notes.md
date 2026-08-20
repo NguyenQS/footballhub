@@ -231,3 +231,11 @@ Ein Ingress kann HTTP-/HTTPS-Anfragen anhand von Hosts oder Pfaden an unterschie
 In meiner lokalen Kubernetes-Umgebung ist aktuell kein Ingress Controller installiert. Daher habe ich die Ingress-Ressource für FootballHub konfiguriert, aber nicht praktisch über einen Ingress Controller betrieben.
 
 Für lokales Testen und Debugging habe ich bisher `kubectl port-forward` verwendet.
+
+### GitOps mit Flux
+
+Flux läuft im Kubernetes-Cluster und überwacht den gewünschten Zustand aus Git.
+
+Ich habe die Anzahl der Replikate in `deployment.yaml` von 3 auf 2 geändert und nur einen Git-Push ausgeführt. Ohne `kubectl apply` hat Flux die Änderung erkannt und automatisch einen Pod beendet, sodass der Cluster wieder dem in Git beschriebenen Zustand entsprach.
+
+Dadurch wird Git zur zentralen Quelle für den gewünschten Cluster-Zustand.
